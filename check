@@ -1,0 +1,7 @@
+#!/bin/bash
+# The definition of done: typecheck, lint, tests.
+set -euo pipefail
+cd "$(dirname "$0")"
+bunx tsc --noEmit
+bunx biome check src tests scripts
+bun test

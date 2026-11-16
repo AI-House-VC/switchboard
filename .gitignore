@@ -1,0 +1,11 @@
+node_modules/
+dist/
+vendor/
+*.db
+*.db-wal
+*.db-shm
+.env
+.env.*
+!.env*.op
+.DS_Store
+*.bun-build

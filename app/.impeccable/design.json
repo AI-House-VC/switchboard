@@ -1,0 +1,360 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-15T23:47:11+00:00",
+  "title": "Design System: Switchboard",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "System Accent",
+        "canonical": "Color.accentColor (default systemBlue #007AFF)",
+        "tonalRamp": [
+          "#001E40",
+          "#003773",
+          "#004FA6",
+          "#0068D9",
+          "#268EFF",
+          "#66AFFF",
+          "#A6D0FF",
+          "#E0EFFF"
+        ]
+      },
+      "good-green": {
+        "role": "secondary",
+        "displayName": "Done Green",
+        "canonical": "NSColor.systemGreen",
+        "tonalRamp": [
+          "#0D3216",
+          "#175A28",
+          "#22813A",
+          "#2CA94C",
+          "#52CF72",
+          "#85DD9B",
+          "#B8EBC5",
+          "#E7F8EB"
+        ]
+      },
+      "attention-orange": {
+        "role": "secondary",
+        "displayName": "Attention Orange",
+        "canonical": "NSColor.systemOrange",
+        "tonalRamp": [
+          "#402500",
+          "#734300",
+          "#A66100",
+          "#D97F00",
+          "#FFA526",
+          "#FFBF66",
+          "#FFDAA6",
+          "#FFF2E0"
+        ]
+      },
+      "destructive-red": {
+        "role": "secondary",
+        "displayName": "Destructive Red",
+        "canonical": "NSColor.systemRed via role .destructive",
+        "tonalRamp": [
+          "#400F0C",
+          "#731B16",
+          "#A6261F",
+          "#D93229",
+          "#FF584F",
+          "#FF8983",
+          "#FFBAB7",
+          "#FFE7E6"
+        ]
+      },
+      "linkedin-blue": {
+        "role": "tertiary",
+        "displayName": "LinkedIn Blue",
+        "canonical": "Color(red: 0.04, green: 0.40, blue: 0.76)",
+        "tonalRamp": [
+          "#021A30",
+          "#042E57",
+          "#06427E",
+          "#0857A5",
+          "#2F7DCB",
+          "#6CA3DA",
+          "#A9C9EA",
+          "#E2EDF8"
+        ]
+      },
+      "messages-green": {
+        "role": "tertiary",
+        "displayName": "Messages Green",
+        "canonical": "Color(red: 0.20, green: 0.78, blue: 0.35)",
+        "tonalRamp": [
+          "#0D3216",
+          "#175A28",
+          "#21813A",
+          "#2BA94C",
+          "#52CF72",
+          "#85DD9B",
+          "#B8EBC5",
+          "#E7F8EB"
+        ]
+      },
+      "whatsapp-teal": {
+        "role": "tertiary",
+        "displayName": "WhatsApp Teal",
+        "canonical": "Color(red: 0.07, green: 0.55, blue: 0.49)",
+        "tonalRamp": [
+          "#04231F",
+          "#083F38",
+          "#0C5B51",
+          "#0F776A",
+          "#369D90",
+          "#71BAB1",
+          "#ACD7D2",
+          "#E3F1EF"
+        ]
+      },
+      "tile-blue": {
+        "role": "tertiary",
+        "displayName": "Tile Blue",
+        "canonical": "NSColor.systemBlue",
+        "tonalRamp": [
+          "#001E40",
+          "#003773",
+          "#004FA6",
+          "#0068D9",
+          "#268EFF",
+          "#66AFFF",
+          "#A6D0FF",
+          "#E0EFFF"
+        ]
+      },
+      "tile-gray": {
+        "role": "tertiary",
+        "displayName": "Tile Gray",
+        "canonical": "NSColor.systemGray",
+        "tonalRamp": [
+          "#242425",
+          "#404042",
+          "#5C5C60",
+          "#79797D",
+          "#9F9FA3",
+          "#BBBBBE",
+          "#D7D7D9",
+          "#F1F1F2"
+        ]
+      },
+      "tile-indigo": {
+        "role": "tertiary",
+        "displayName": "Tile Indigo",
+        "canonical": "NSColor.systemIndigo",
+        "tonalRamp": [
+          "#161636",
+          "#282760",
+          "#39388B",
+          "#4B49B6",
+          "#716FDC",
+          "#9B9AE6",
+          "#C5C4F1",
+          "#EBEBFA"
+        ]
+      },
+      "tile-purple": {
+        "role": "tertiary",
+        "displayName": "Tile Purple",
+        "canonical": "NSColor.systemPurple",
+        "tonalRamp": [
+          "#2C1438",
+          "#4F2564",
+          "#723590",
+          "#9546BD",
+          "#BB6CE3",
+          "#CF97EB",
+          "#E3C2F3",
+          "#F5EAFB"
+        ]
+      },
+      "tile-glyph": {
+        "role": "neutral",
+        "displayName": "Tile Glyph White",
+        "canonical": "Color.white",
+        "tonalRamp": [
+          "#404040",
+          "#737373",
+          "#A6A6A6",
+          "#D9D9D9",
+          "#FFFFFF",
+          "#FFFFFF",
+          "#FFFFFF",
+          "#FFFFFF"
+        ]
+      },
+      "icon-blue-top": {
+        "role": "tertiary",
+        "displayName": "Icon Blue Top",
+        "canonical": "NSColor(red: 0.33, green: 0.62, blue: 1.0)",
+        "tonalRamp": [
+          "#152840",
+          "#264773",
+          "#3767A6",
+          "#4786D9",
+          "#6EADFF",
+          "#98C5FF",
+          "#C3DDFF",
+          "#EAF3FF"
+        ]
+      },
+      "icon-blue-bottom": {
+        "role": "tertiary",
+        "displayName": "Icon Blue Bottom",
+        "canonical": "NSColor(red: 0.10, green: 0.36, blue: 0.88)",
+        "tonalRamp": [
+          "#061738",
+          "#0C2965",
+          "#113C92",
+          "#164EBE",
+          "#3C74E5",
+          "#769DEC",
+          "#AFC6F4",
+          "#E4EBFB"
+        ]
+      },
+      "tile-teal": {
+        "role": "tertiary",
+        "displayName": "Tile Teal",
+        "canonical": "NSColor.systemTeal",
+        "note": "Get Started page tile"
+      },
+      "tile-brown": {
+        "role": "tertiary",
+        "displayName": "Tile Brown",
+        "canonical": "NSColor.systemBrown",
+        "note": "Claude Code row tile"
+      }
+    },
+    "typographyMeta": {
+      "welcome": {
+        "displayName": "Welcome",
+        "purpose": "The single welcome line on Get Started (.title2 semibold)."
+      },
+      "body": {
+        "displayName": "Title",
+        "purpose": "Row and step titles (.body)."
+      },
+      "state": {
+        "displayName": "State",
+        "purpose": "StateLine sentences, step details, fix links, footers (.callout)."
+      },
+      "step-number": {
+        "displayName": "Step Number",
+        "purpose": "Number inside the setup step badge (.callout semibold, monospaced digits)."
+      },
+      "mono": {
+        "displayName": "Mono",
+        "purpose": "Copyable setup block and diagnostics output only."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "step-done",
+        "value": "easeOut 0.2s",
+        "purpose": "Setup step badge and action change when a step completes."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "window-min",
+        "value": "800x480pt"
+      },
+      {
+        "name": "sidebar",
+        "value": "215pt (max 260pt)"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Icon Tile",
+      "kind": "custom",
+      "refersTo": "icon-tile-row",
+      "description": "Tint-gradient rounded square (27% radius, continuous) with a white semibold SF Symbol; 20pt sidebar, 26pt rows.",
+      "html": "<span class=\"ds-tile ds-tile--linkedin\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"#fff\"><rect x=\"1\" y=\"5\" width=\"14\" height=\"9\" rx=\"2\"/><path d=\"M5.5 5V3.5A1.5 1.5 0 0 1 7 2h2a1.5 1.5 0 0 1 1.5 1.5V5h-1.2V3.5a.3.3 0 0 0-.3-.3H7a.3.3 0 0 0-.3.3V5z\"/></svg></span>",
+      "css": ".ds-tile{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:7px;flex:none}.ds-tile--linkedin{background:linear-gradient(180deg,#2B7BCB,#0959AA)}.ds-tile--messages{background:linear-gradient(180deg,#52CF73,#2CAF4E)}"
+    },
+    {
+      "name": "Channel SettingRow",
+      "kind": "custom",
+      "refersTo": "state-line-attention",
+      "description": "Tile, title, StateLine, inline fix link, trailing Off / Read only / Read & write segmented picker.",
+      "html": "<div class=\"ds-row\"><span class=\"ds-tile ds-tile--messages\" aria-hidden=\"true\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 16 16\" fill=\"#fff\"><path d=\"M8 2C4.1 2 1 4.5 1 7.6c0 1.7 1 3.3 2.6 4.3L3 14.5l3-1.6c.6.1 1.3.2 2 .2 3.9 0 7-2.5 7-5.5S11.9 2 8 2z\"/></svg></span><div class=\"ds-row__text\"><span>Messages</span><span class=\"ds-state\"><svg width=\"12\" height=\"11\" viewBox=\"0 0 12 11\"><path d=\"M6 0l6 11H0z\" fill=\"#FF9500\"/><path d=\"M6 4v3.2M6 8.6v.6\" stroke=\"#fff\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg>Needs Full Disk Access</span><button class=\"ds-fix\">Open Privacy Settings\u2026</button></div><div class=\"ds-seg\" role=\"group\" aria-label=\"Messages\"><button aria-pressed=\"false\">Off</button><button aria-pressed=\"true\">Read only</button><button aria-pressed=\"false\">Read &amp; write</button></div></div>",
+      "css": ".ds-tile{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:7px;flex:none}.ds-tile--linkedin{background:linear-gradient(180deg,#2B7BCB,#0959AA)}.ds-tile--messages{background:linear-gradient(180deg,#52CF73,#2CAF4E)}.ds-row{display:flex;align-items:center;gap:10px;padding:9px 10px;background:#fff;border-radius:10px;font:13px -apple-system,system-ui;color:#1d1d1f;max-width:620px}.ds-row__text{display:flex;flex-direction:column;gap:2px;flex:1}.ds-state{font-size:12px;color:#1d1d1f;display:flex;gap:5px;align-items:center}.ds-fix{font-size:12px;color:#007AFF;background:none;border:0;padding:0;text-align:left;cursor:pointer}.ds-fix:hover{text-decoration:underline}.ds-fix:focus-visible{outline:3px solid rgba(0,122,255,.5)}.ds-seg{display:inline-flex;background:#e3e3e8;border-radius:6px;padding:1px;margin-left:12px}.ds-seg button{border:0;background:none;font:13px -apple-system,system-ui;padding:3px 10px;border-radius:5px;color:#1d1d1f}.ds-seg button[aria-pressed=true]{background:#fff;box-shadow:0 0 0 .5px rgba(0,0,0,.15),0 1px 1px rgba(0,0,0,.08)}.ds-seg button:focus-visible{outline:3px solid rgba(0,122,255,.5)}"
+    },
+    {
+      "name": "StateLine (good)",
+      "kind": "chip",
+      "refersTo": "state-line-good",
+      "description": "Secondary callout sentence with a green check circle.",
+      "html": "<span class=\"ds-sl\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 16 16\"><circle cx=\"8\" cy=\"8\" r=\"8\" fill=\"#34C759\"/><path d=\"M4.5 8.2l2.3 2.3 4.7-4.9\" stroke=\"#fff\" stroke-width=\"1.8\" fill=\"none\" stroke-linecap=\"round\"/></svg>Synced just now \u00b7 12 new</span>",
+      "css": ".ds-sl{display:inline-flex;gap:5px;align-items:center;font:12px -apple-system,system-ui;color:#86868b}"
+    },
+    {
+      "name": "Push Button",
+      "kind": "button",
+      "description": "Native macOS push button, Title Case, ellipsis when it opens something else.",
+      "html": "<button class=\"ds-btn\">Open Privacy Settings\u2026</button>",
+      "css": ".ds-btn{font:13px -apple-system,system-ui;color:#1d1d1f;background:#fff;border:0;border-radius:6px;padding:3px 10px;box-shadow:0 0 0 .5px rgba(0,0,0,.2),0 1px 1px rgba(0,0,0,.1)}.ds-btn:active{background:#e8e8ed}.ds-btn:focus-visible{outline:3px solid rgba(0,122,255,.5)}"
+    },
+    {
+      "name": "Setup Step",
+      "kind": "custom",
+      "refersTo": "step-badge-done",
+      "description": "Get Started checklist row: numbered badge (green check when done), title and detail, trailing action.",
+      "html": "<div class=\"ds-step\"><span class=\"ds-badge\">2</span><div class=\"ds-step__t\"><span>Choose your channels</span><small>Everything starts off. Pick what bots can read.</small></div><button class=\"ds-btn\">Choose Channels\u2026</button></div>",
+      "css": ".ds-step{display:flex;align-items:center;gap:12px;padding:9px 10px;background:#fff;border-radius:10px;font:13px -apple-system,system-ui;color:#1d1d1f;max-width:620px}.ds-badge{width:24px;height:24px;border-radius:50%;background:rgba(0,0,0,.08);color:#86868b;font-weight:600;font-size:12px;display:grid;place-items:center;font-variant-numeric:tabular-nums}.ds-step__t{flex:1;display:flex;flex-direction:column;gap:2px}.ds-step__t small{font-size:12px;color:#86868b}.ds-btn{font:13px -apple-system,system-ui;color:#1d1d1f;background:#fff;border:0;border-radius:6px;padding:3px 10px;box-shadow:0 0 0 .5px rgba(0,0,0,.2),0 1px 1px rgba(0,0,0,.1)}.ds-btn:active{background:#e8e8ed}.ds-btn:focus-visible{outline:3px solid rgba(0,122,255,.5)}"
+    },
+    {
+      "name": "Sidebar",
+      "kind": "nav",
+      "refersTo": "icon-tile-sidebar",
+      "description": "Page list with 20pt tiles and a 7pt orange attention dot.",
+      "html": "<nav class=\"ds-side\"><a class=\"ds-side__i is-sel\" href=\"#\"><span class=\"ds-t ds-t--blue\"></span>Channels<i></i></a><a class=\"ds-side__i\" href=\"#\"><span class=\"ds-t ds-t--gray\"></span>Setup<i></i></a><a class=\"ds-side__i\" href=\"#\"><span class=\"ds-t ds-t--indigo\"></span>Connect Your Bots</a></nav>",
+      "css": ".ds-side{width:215px;background:#ececec;padding:8px;font:13px -apple-system,system-ui;display:flex;flex-direction:column;gap:2px}.ds-side__i{display:flex;align-items:center;gap:8px;padding:4px 6px;border-radius:6px;color:#1d1d1f;text-decoration:none}.ds-side__i:hover{background:rgba(0,0,0,.04)}.ds-side__i.is-sel{background:rgba(0,0,0,.1)}.ds-side__i:focus-visible{outline:3px solid rgba(0,122,255,.5)}.ds-t{width:20px;height:20px;border-radius:5.4px}.ds-t--blue{background:linear-gradient(180deg,#3D8BFF,#0069E0)}.ds-t--gray{background:linear-gradient(180deg,#A2A2A7,#7A7A80)}.ds-t--indigo{background:linear-gradient(180deg,#7472E0,#4542C8)}.ds-side__i i{margin-left:auto;width:7px;height:7px;border-radius:50%;background:#FF9500}"
+    }
+  ],
+  "narrative": {
+    "northStar": "A Pane in System Settings",
+    "overview": "Switchboard is a control panel for consent, built to read as if Apple shipped it: a NavigationSplitView sidebar of coloured rounded-square tiles, grouped Form sections, the system font, SF Symbols and semantic system colours. The per-channel segmented choice (Off / Read only / Read & write) is the product; every other element exists to make that choice safe or to unblock it.\n\nDensity is System Settings density: one Form row per thing, each row a tile, a title, one state sentence, an optional inline fix link, and one trailing control. Explanation lives in section footers in secondary text, never in banners or cards. The window is quiet when healthy; colour appears only where something is done (green) or needs doing (orange).\n\nThe only owned artwork is the glyph: three jacks patched into one, drawn in code as a template image for the menu bar (tinted by macOS) and reused on the blue app icon and the welcome mark.",
+    "keyCharacteristics": [
+      "System Settings grammar: sidebar tiles, `Form` with `.grouped` style, page title in the window title.",
+      "System font and SF Symbols only; no bundled fonts or icon sets.",
+      "Semantic colour for state; identity tint only on tiles.",
+      "Every problem state carries its fix inline as a link-style button.",
+      "Content stays out: counts, states and dates, never message text."
+    ],
+    "rules": [
+      {
+        "name": "The Quiet-When-Healthy Rule",
+        "body": "Neutral and good states read in secondary text. A state line switches to primary text only for `attention`, so the one thing to fix is the darkest sentence on the page.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tint-Is-Identity Rule",
+        "body": "Tile tints name a thing (a channel, a page, a bot). They never signal state. State goes through StateLine and its symbols.",
+        "section": "colors"
+      },
+      {
+        "name": "The Sentence-State Rule",
+        "body": "Status is a short plain sentence in the user's words (\"Needs Full Disk Access\", \"Synced 5 min ago \u00b7 12 new\"), never a code, badge or number on its own.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "**Do** build every new setting as a SettingRow inside a `.grouped` Form section, with explanation in the section footer (`.callout`, secondary).",
+      "**Do** pair every attention state with the button that fixes it, inline under the state line.",
+      "**Do** confirm, with an alert that says what is deleted and what is not, before any change that deletes data or widens what bots can do.",
+      "**Do** keep the menu bar glyph a template image so it follows the menu bar's appearance."
+    ],
+    "donts": [
+      "**Don't** put tile tints on text, state symbols or controls; state colour comes only from StateLine tones.",
+      "**Don't** set colours by RGB outside `Channel.tint` and the icon generator; use system semantic colours.",
+      "**Don't** show message text, sender content or totals as heroes: counts, states and dates only, in sentences.",
+      "**Don't** add dashboard furniture (stat tiles, charts, custom cards) or custom shadows; this is a settings pane."
+    ]
+  }
+}
