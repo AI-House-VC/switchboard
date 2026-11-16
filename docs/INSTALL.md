@@ -1,6 +1,7 @@
 # Installing Switchboard
 
-You need a Mac with Apple Silicon on macOS 14 or later, and about 10 minutes at it (macOS asks you to grant
+You need a Mac with Apple Silicon on macOS 14 or later (plus Google Chrome, Microsoft Edge, Brave or Chromium if you
+use LinkedIn: the sign-in window opens in it), and about 10 minutes at it (macOS asks you to grant
 permissions). Everything stays on your Mac: your LinkedIn login, your messages index and your settings.
 Nothing in setup sends a message.
 
@@ -58,5 +59,5 @@ ditto -x -k switchboard-*-darwin-arm64.zip . && ./switchboard install
 
 `install` puts Switchboard in `~/Applications/Switchboard` and starts it in the background. It also registers
 it with Claude Code. Grant Full Disk Access to `~/Applications/Switchboard/switchboard` when System Settings
-opens, then run `~/Applications/Switchboard/switchboard doctor`. If LinkedIn isn't signed in, doctor prints the
-`allman login` command to run.
+opens, then run `~/Applications/Switchboard/switchboard doctor`. If LinkedIn isn't signed in, run
+`~/Applications/Switchboard/switchboard linkedin-login`.

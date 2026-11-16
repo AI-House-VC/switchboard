@@ -240,15 +240,19 @@ final class AppModel {
 
     func stopService() { ServiceRunner.shared.stop() }
 
-    /// `allman login` opens the browser itself and returns once the sign-in finishes.
+    /// `switchboard linkedin-login` runs `allman login` with a browser that's installed on this Mac (a fresh Mac
+    /// has no Playwright Chromium); allman opens it and returns once the sign-in finishes.
     func signInToLinkedIn() {
         guard !signingIn else { return }
         signingIn = true
         Task {
             defer { signingIn = false; refresh() }
             do {
-                let r = try await Runner.run(Paths.allman, ["login", "--store", Paths.allmanStore], box: signInBox)
-                if !r.ok, r.status != SIGTERM {
+                let r = try await Runner.run(Paths.switchboard, ["linkedin-login"], box: signInBox)
+                if r.status == 3 {
+                    alert = AppAlert(title: "LinkedIn sign-in needs a browser",
+                                     message: "Install Google Chrome (or Microsoft Edge, Brave or Chromium), then try again. Switchboard only uses it for the sign-in window.")
+                } else if !r.ok, r.status != SIGTERM {
                     alert = AppAlert(title: "LinkedIn sign-in didn't finish",
                                      message: "Try again. If it keeps failing, run Diagnostics in Setup.")
                 }

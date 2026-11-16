@@ -12,6 +12,9 @@ case "${1:-}" in
     while :; do sleep 1; done ;;
   sync) echo '{"ok":true,"conversations":0}' ;;
   status) echo '[{"status":"authenticated"}]' ;;
+  login)
+    [ -n "${FAKE_ALLMAN_LOG:-}" ] && echo "browser=${PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH:-}" >> "$FAKE_ALLMAN_LOG"
+    exit "${FAKE_ALLMAN_LOGIN_EXIT:-0}" ;;
   send)
     if [ "${2:-}" = "--dry-run" ]; then
       case "${FAKE_ALLMAN_PROBE:-new}" in

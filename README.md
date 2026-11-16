@@ -33,7 +33,8 @@ for one person's daily use and is shared in case it's useful to others.
 
 ## Install
 
-You need an Apple Silicon Mac on macOS 14 or later.
+You need an Apple Silicon Mac on macOS 14 or later. For LinkedIn you also need Google Chrome, Microsoft Edge, Brave
+or Chromium installed: the one-time sign-in window opens in it.
 
 1. Download `Switchboard-<version>.dmg` from the [latest release](../../releases/latest).
 2. Open it and drag **Switchboard** into **Applications**, then open it. It lives in the menu bar and starts at

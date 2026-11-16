@@ -32,7 +32,9 @@ defined in [GLOSSARY.md](GLOSSARY.md).
 - **iMessage and WhatsApp** are read from temporary copies of their SQLite databases (plus WAL files), never the
   live files. That needs Full Disk Access.
 - **LinkedIn** is read from allman's local store. The daemon runs `allman sync` and `allman listen` (argv arrays
-  only, absolute `--store`) and never reads allman's cookies.
+  only, absolute `--store`) and never reads allman's cookies. Sign-in (`switchboard linkedin-login`) runs
+  `allman login` with an installed Chromium-based browser (Chrome, Edge, Brave or Chromium), because a fresh Mac
+  has no Playwright Chromium for allman to fall back on.
 - **Contacts** joins handles (phone, email, LinkedIn URL) into one person. People are only joined on exact
   handles, never on names. An assistant can pass handles from another tool, such as a CRM, to `find_person`.
 - **Backfill** is 12 months per channel. WhatsApp groups larger than `whatsapp.group_max` (default 8) are

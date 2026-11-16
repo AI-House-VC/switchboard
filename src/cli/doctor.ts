@@ -145,13 +145,19 @@ export async function runDoctor(): Promise<number> {
   }
   const acct = accountDir(p.allmanStore, null);
   if (!acct) {
-    say("fail", `No LinkedIn account in ${p.allmanStore}`, `Run: ${bin ?? "allman"} login --store ${p.allmanStore}`);
+    say(
+      "fail",
+      `No LinkedIn account in ${p.allmanStore}`,
+      "Sign in from Switchboard.app (Channels → LinkedIn), or run: switchboard linkedin-login",
+    );
   } else {
     const a = readAuth(acct);
     say(
       a.status === "authenticated" ? "ok" : "fail",
       `LinkedIn auth: ${a.status}${a.lastSyncAt ? `, last allman sync ${a.lastSyncAt}` : ""}`,
-      a.status === "authenticated" ? undefined : `Run: ${bin ?? "allman"} login --store ${p.allmanStore}`,
+      a.status === "authenticated"
+        ? undefined
+        : "Sign in from Switchboard.app (Channels → LinkedIn), or run: switchboard linkedin-login",
     );
   }
 

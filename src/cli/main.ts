@@ -7,6 +7,7 @@ import { runShim } from "../mcp/shim.ts";
 import { appSetup, setChannel } from "./app.ts";
 import { runDoctor } from "./doctor.ts";
 import { runInstall } from "./install.ts";
+import { linkedinLogin } from "./linkedin-login.ts";
 
 const USAGE = `switchboard <command>
 
@@ -15,6 +16,7 @@ const USAGE = `switchboard <command>
   doctor                     check permissions, allman, LinkedIn auth and the daemon
   install [--no-claude]      install binaries + LaunchAgent, register Claude Code
   set-channel <channel> <mode>  (Switchboard.app) linkedin|imessage|whatsapp  off|read|read_write
+  linkedin-login             sign in to LinkedIn (allman login, using an installed browser)
   app-setup                  (Switchboard.app) config, retire the old CLI agent, register Claude Code
   --version                  print the version
 `;
@@ -49,6 +51,8 @@ async function main(argv: string[]): Promise<number> {
         console.error((e as Error).message);
         return 2;
       }
+    case "linkedin-login":
+      return linkedinLogin(paths());
     case "app-setup":
       console.log(JSON.stringify(appSetup(paths(), { bin: process.execPath })));
       return 0;
