@@ -15,7 +15,8 @@ Nothing in setup sends a message.
    - Grant **Full Disk Access**: drag Switchboard into the list.
    - Choose what each channel may do: **Off**, **Read only** or **Read & write**. Everything starts Off.
    - Sign in to LinkedIn if you turned it on.
-   - Connect your assistants. Claude Code is registered for you; OpenMausBot gets a block to paste.
+   - Connect your assistants. The Claude app and Claude Code are connected for you (quit and reopen Claude
+     afterwards); OpenMausBot gets a block to paste.
 
 Quitting Switchboard from the menu bar stops it, and your assistants lose access until you open it again.
 Switching a channel to Off deletes Switchboard's local copy of it. Your messages in LinkedIn, Messages and

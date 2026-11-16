@@ -50,7 +50,7 @@ struct GetStartedView: View {
                     }
                 }
                 Step(number: model.modes[.linkedin] != .off ? 4 : 3, title: "Connect your bots",
-                     detail: "Add Switchboard to Claude Code or OpenMausBot.",
+                     detail: "Add Switchboard to Claude, Claude Code or OpenMausBot.",
                      done: model.botsConnected) {
                     Button("Connect Bots…") { model.selection = .bots }
                 }

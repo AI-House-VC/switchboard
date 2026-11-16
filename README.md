@@ -50,9 +50,9 @@ More detail, including the command-line build, is in [docs/INSTALL.md](docs/INST
 
 ### Connecting assistants
 
-- **Claude Code** is registered for you on first launch.
-- **Claude Desktop**: add this to `~/Library/Application Support/Claude/claude_desktop_config.json` under
-  `mcpServers`, then restart Claude Desktop:
+- **The Claude app** (Claude Desktop) and **Claude Code** are connected for you each time Switchboard opens. Quit and
+  reopen Claude afterwards so it loads Switchboard. The Claude app gets this entry in
+  `~/Library/Application Support/Claude/claude_desktop_config.json`, and the rest of that file is kept as it was:
   ```json
   "switchboard": {
     "command": "/Applications/Switchboard.app/Contents/Helpers/switchboard",

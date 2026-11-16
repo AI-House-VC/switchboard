@@ -8,6 +8,20 @@ struct BotsView: View {
     var body: some View {
         Form {
             Section {
+                SettingRow(symbol: "sparkles", tint: .orange, title: "Claude", state: desktopLine) {
+                    switch model.claudeDesktop {
+                    case "registered", "updated": EmptyView()
+                    case "not_installed": Button("Check Again") { model.registerClaudeCode() }
+                    default: Button("Connect") { model.registerClaudeCode() }
+                    }
+                }
+                .disabled(model.registeringClaude)
+            } footer: {
+                Text("Switchboard adds itself to the Claude app's local tools. Quit and reopen Claude to pick it up.")
+                    .footnote()
+            }
+
+            Section {
                 SettingRow(symbol: "chevron.left.forwardslash.chevron.right", tint: .brown, title: "Claude Code",
                            state: claudeLine) {
                     switch model.claudeCode {
@@ -46,6 +60,17 @@ struct BotsView: View {
             }
         }
         .formStyle(.grouped)
+    }
+
+    private var desktopLine: StateLine {
+        if model.registeringClaude { return StateLine(text: "Connecting…", tone: .busy) }
+        switch model.claudeDesktop {
+        case "registered": return StateLine(text: "Connected", tone: .good)
+        case "updated": return StateLine(text: "Added. Quit and reopen Claude to finish", tone: .attention)
+        case "not_installed": return StateLine(text: "The Claude app isn't installed on this Mac")
+        case "failed": return StateLine(text: "Couldn't read Claude's settings file", tone: .attention)
+        default: return StateLine(text: "Checking…", tone: .busy)
+        }
     }
 
     private var claudeLine: StateLine {

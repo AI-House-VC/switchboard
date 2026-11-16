@@ -32,6 +32,7 @@ final class AppModel {
     private(set) var modes: [Channel: Mode] = Dictionary(uniqueKeysWithValues: Channel.allCases.map { ($0, .off) })
     private(set) var fullDiskAccess: Bool?
     private(set) var claudeCode: String? // registered | not_installed | failed
+    private(set) var claudeDesktop: String? // registered | updated (restart Claude) | not_installed | failed
     private(set) var serviceRunning = false
     private(set) var serviceLastExit: Int32?
     private(set) var loginItem: SMAppService.Status?
@@ -95,7 +96,9 @@ final class AppModel {
     /// Full Disk Access matters once Messages or WhatsApp is on.
     var needsFullDiskAccess: Bool { fullDiskAccess == false }
 
-    var botsConnected: Bool { claudeCode == "registered" || setupBlockCopied }
+    var botsConnected: Bool {
+        claudeCode == "registered" || claudeDesktop == "registered" || claudeDesktop == "updated" || setupBlockCopied
+    }
 
     enum Overall { case notSetUp, good, attention }
 
@@ -115,7 +118,7 @@ final class AppModel {
             anyChannelOn && (serviceState == .stopped
                 || (needsFullDiskAccess && (modes[.imessage] != .off || modes[.whatsapp] != .off))
                 || (modes[.linkedin] != .off && !linkedInSignedIn))
-        case .bots: claudeCode == "failed"
+        case .bots: claudeCode == "failed" || claudeDesktop == "failed"
         }
     }
 
@@ -158,7 +161,10 @@ final class AppModel {
 
     private func runAppSetup() async {
         do {
-            claudeCode = try await Switchboard.appSetup().claude_code
+            let r = try await Switchboard.appSetup()
+            claudeCode = r.claude_code
+            // "updated" means written on this launch; keep showing "restart Claude" until the app is relaunched.
+            if claudeDesktop != "updated" { claudeDesktop = r.claude_desktop }
         } catch {
             alert = AppAlert(title: "Switchboard couldn't finish setting up",
                              message: describe(error))

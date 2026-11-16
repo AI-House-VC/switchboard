@@ -92,6 +92,7 @@ enum Switchboard {
         let config_created: Bool
         let old_agent_removed: Bool
         let claude_code: String
+        let claude_desktop: String?
     }
 
     static func appSetup() async throws -> SetupResult {
