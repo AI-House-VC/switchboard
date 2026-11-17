@@ -92,6 +92,26 @@ serve MCP over Streamable HTTP on `127.0.0.1:<http.port>`, which is off by defau
 The intended way in is a private proxy, such as `tailscale serve` on the Mac. `scripts/http-token.sh` mints a
 token and stores it in 1Password.
 
+### Relay: when the Mac sleeps
+
+A laptop running Switchboard is often asleep or closed. Some bot hosts connect to every MCP server a bot has
+at the start of every turn, and one that doesn't answer stops the turn, even when the bot didn't need it.
+`switchboard relay` runs on the bot host and stands in for the Mac:
+
+- It always answers the handshake and the tool list: the Mac's list when the Mac answers, else the last list
+  the Mac gave (kept in its state directory), else the list bundled with this version (`src/relay/snapshot.json`).
+- It passes each call to the Mac with the caller's own Authorization header. It holds no token and checks
+  none; the Mac decides who gets in, and its 401/403 comes back as "refused", not "offline".
+- When the Mac doesn't answer, a call returns "Switchboard is offline … Nothing was sent" at once, and the
+  relay doesn't wait on the Mac again for 20 seconds.
+- It never repeats a call, with one exception: the Mac said it doesn't know the session (it restarted), which
+  it says before running anything. A call that fails partway is reported as "may or may not have happened;
+  check before repeating", so a send is never doubled.
+- It binds loopback, refuses any `Origin` and any non-loopback Host, and logs tool names and outcomes only.
+
+It is plain Node (`scripts/build-relay.sh` → `dist/switchboard-relay.mjs`), so it runs on the Node a bot host
+already ships. The bot host's `switchboard` server points at `http://127.0.0.1:47822/mcp`, keeping its header.
+
 ## Privacy rules
 
 - The only network traffic is allman to LinkedIn and the assistant to Switchboard. There is no telemetry.

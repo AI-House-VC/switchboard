@@ -4,6 +4,7 @@ import { paths } from "../config.ts";
 /** switchboard: daemon | mcp | doctor | install | ingest */
 import { runDaemon } from "../daemon/daemon.ts";
 import { runShim } from "../mcp/shim.ts";
+import { runRelay } from "../relay/main.ts";
 import { appSetup, setChannel } from "./app.ts";
 import { runDoctor } from "./doctor.ts";
 import { runInstall } from "./install.ts";
@@ -16,6 +17,7 @@ const USAGE = `switchboard <command>
   doctor                     check permissions, allman, LinkedIn auth and the daemon
   install [--no-claude]      install binaries + LaunchAgent, register Claude Code
   set-channel <channel> <mode>  (Switchboard.app) linkedin|imessage|whatsapp  off|read|read_write
+  relay --upstream <url>     always-on stand-in on a bot host, for a Mac that sleeps (see relay --help)
   linkedin-login             sign in to LinkedIn (allman login, using an installed browser)
   app-setup                  (Switchboard.app) config, retire the old CLI agent, register Claude Code
   --version                  print the version
@@ -35,6 +37,8 @@ async function main(argv: string[]): Promise<number> {
     case "mcp":
       runShim(flag(rest, "--client") ?? "claude-code");
       return -1;
+    case "relay":
+      return runRelay(rest);
     case "doctor":
       return runDoctor();
     case "install":

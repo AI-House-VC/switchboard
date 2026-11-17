@@ -35,3 +35,4 @@ Terms as used in code and docs. If code and this file disagree, flag it.
 | **unconfirmed** | Dispatch outcome unknown (timeout, crash, no sent row). Never retried. |
 | **handoff** | WhatsApp prefill: Switchboard opens the chat with the text; the human presses Enter. Groups get **Copy & Open**. Never reported as an automated send. |
 | **draft** | Optional saved text for later. `send_draft` uses the same path as `send_message`; editing a draft cancels its waiting approval. |
+| **relay** | `switchboard relay`: an always-on stand-in on the bot host. Answers the handshake and tool list itself, passes calls to the Mac, says "offline" when the Mac sleeps. |

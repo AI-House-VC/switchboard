@@ -47,6 +47,15 @@ If your bot host runs on another machine, such as OpenMausBot on a home server, 
 in 1Password. Then reach the endpoint through a private proxy such as `tailscale serve`
 ([DESIGN.md](DESIGN.md#assistants-on-another-machine-optional)).
 
+If the Mac sleeps (a laptop), also run the relay on the bot host, so bots don't stall while it's closed:
+
+```bash
+node switchboard-relay.mjs --upstream https://<your-mac>.<tailnet>.ts.net/mcp --port 47822
+```
+
+Then point the bot host's `switchboard` server at `http://127.0.0.1:47822/mcp` and keep its Authorization
+header. Build the file with `./scripts/build-relay.sh`, and keep it running with the bot host's service manager.
+
 ## Command-line build
 
 Each release also has `switchboard-<version>-darwin-arm64.zip`: the helper alone, with allman built in, for a
