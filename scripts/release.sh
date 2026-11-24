@@ -28,7 +28,9 @@ rm -f "$ZIP"
 # The zip holds switchboard and its notices at its root (docs/INSTALL.md runs ./switchboard after unzipping).
 cp LICENSE THIRD_PARTY_NOTICES.md dist/
 rm -f "$ZIP" && (cd dist && zip -q -X "../$ZIP" switchboard LICENSE THIRD_PARTY_NOTICES.md)
-[[ "$(unzip -Z1 "$ZIP" | sort | tr '\n' ' ')" == "LICENSE THIRD_PARTY_NOTICES.md switchboard " ]] || { echo "Unexpected zip layout." >&2; exit 1; }
+# Byte order (LC_ALL=C): a UTF-8 locale's sort ignores case and puts switchboard before THIRD_PARTY_NOTICES.md.
+LAYOUT="$(unzip -Z1 "$ZIP" | LC_ALL=C sort | tr '\n' ' ')"
+[[ "$LAYOUT" == "LICENSE THIRD_PARTY_NOTICES.md switchboard " ]] || { echo "Unexpected zip layout: $LAYOUT" >&2; exit 1; }
 shasum -a 256 "$ZIP" | sed 's|dist/||' > "$ZIP.sha256"
 echo "✓ $ZIP"
 
