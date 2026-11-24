@@ -9,7 +9,8 @@ iMessage and WhatsApp conversations. How it works and why: `docs/DESIGN.md`. Ter
   `--release` embeds the pinned allman and signs with a Developer ID (hardened runtime).
 - `./scripts/build-app.sh [--release]` / `./scripts/make-dmg.sh`: assemble and sign Switchboard.app; make the dmg.
 - `./scripts/release.sh [--dry-run]`: check, release build, notarize, tag and GitHub release (`docs/RELEASING.md`).
-- `./scripts/http-token.sh [client] [port]`: mint/rotate a loopback HTTP token (1Password) for a remote client.
+- `./scripts/http-token.sh [client] [port]`: mint/rotate a loopback HTTP token (1Password) for a remote client,
+  fill `http.public_hosts` from Tailscale, restart the daemon and verify it serves the token.
 - `./scripts/fetch-allman.sh`: download the pinned allman into `vendor/` and verify the sha256 pin.
 - `./scripts/make-dev-cert.sh`: one-time, creates the local code-signing identity so FDA survives rebuilds.
 - `dist/switchboard install | doctor | daemon | mcp --client <label>`.

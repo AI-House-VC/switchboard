@@ -74,7 +74,7 @@ export interface AppSetupResult {
  * The `claude` CLI. Switchboard.app is started by launchd with a minimal PATH, so `which` misses the usual install
  * places; look there too.
  */
-function findClaudeCli(home: string, root: string, run: (cmd: string[]) => number): string | null {
+export function findClaudeCli(home: string, root: string, run: (cmd: string[]) => number): string | null {
   if (run(["/usr/bin/env", "which", "claude"]) === 0) return "claude";
   for (const c of [
     join(home, ".local/bin/claude"),

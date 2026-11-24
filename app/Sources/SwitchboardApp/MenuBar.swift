@@ -58,11 +58,14 @@ struct MenuContent: View {
         Button("Open Switchboard…", action: openWindow)
             .keyboardShortcut(",")
         Divider()
-        Button("Quit Switchboard…") { Self.confirmQuit() }
+        // The menu is still closing when this action runs; ask on the next turn of the run loop.
+        Button("Quit Switchboard…") { Task { @MainActor in Self.confirmQuit() } }
             .keyboardShortcut("q")
     }
 
     /// Quitting stops the service too, so it asks first.
+    /// A menu-bar-only app isn't always made active (macOS 14 activation is a request), and an alert behind other
+    /// apps' windows looked like Quit doing nothing (2026-11-23). Float the alert so it's always seen.
     static func confirmQuit() {
         NSApp.activate()
         let a = NSAlert()
@@ -70,6 +73,7 @@ struct MenuContent: View {
         a.informativeText = "Bots lose access to your messages until you open Switchboard again."
         a.addButton(withTitle: "Quit")
         a.addButton(withTitle: "Cancel")
+        a.window.level = .floating
         if a.runModal() == .alertFirstButtonReturn { NSApp.terminate(nil) }
     }
 

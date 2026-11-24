@@ -90,7 +90,9 @@ serve MCP over Streamable HTTP on `127.0.0.1:<http.port>`, which is off by defau
 - refuses any `Origin` header and any Host other than loopback or a listed `http.public_hosts` name.
 
 The intended way in is a private proxy, such as `tailscale serve` on the Mac. `scripts/http-token.sh` mints a
-token and stores it in 1Password.
+token, stores it in 1Password, adds the Mac's tailnet name to `http.public_hosts` (the proxy forwards that
+Host), restarts the daemon and checks that the endpoint takes the new token. Switchboard.app restarts its
+daemon child when it exits, so the script stops the child; the terminal build's LaunchAgent is kickstarted.
 
 ### Relay: when the Mac sleeps
 

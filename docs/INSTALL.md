@@ -42,10 +42,27 @@ time an iMessage is sent.
 
 ## Assistants on another machine
 
-If your bot host runs on another machine, such as OpenMausBot on a home server, use
-`scripts/http-token.sh` from this repo. It turns on a token-guarded loopback HTTP endpoint and stores the token
-in 1Password. Then reach the endpoint through a private proxy such as `tailscale serve`
+If your bot host runs on another machine, such as OpenMausBot on a home server, run this on the Mac, from a
+checkout of this repo:
+
+```bash
+./scripts/http-token.sh openmausbot 47821
+tailscale serve --bg 47821
+```
+
+`http-token.sh` turns on a token-guarded loopback HTTP endpoint, stores the token in 1Password (it offers your
+vaults and defaults to Private or Personal), adds this Mac's tailnet name (`<mac>.<tailnet>.ts.net`, from
+`tailscale status`) to `http.public_hosts`, restarts Switchboard's background service, and checks that the
+endpoint takes the new token before it says so. It copies the `Authorization` header value to the clipboard for
+90 seconds. `tailscale serve` exposes the port to your own tailnet only
 ([DESIGN.md](DESIGN.md#assistants-on-another-machine-optional)).
+
+- **Requests through Tailscale get 403?** The Mac's tailnet name isn't in `http.public_hosts`. The script fills
+  it in when the `tailscale` CLI can see it; otherwise run it again with
+  `SWITCHBOARD_PUBLIC_HOST=<mac>.<tailnet>.ts.net`.
+- **The script says Switchboard isn't serving yet?** Quit Switchboard from its menu-bar icon and open it again.
+- **`op` asks you to add an account manually?** Turn on 1Password → Settings → Developer → Integrate with
+  1Password CLI.
 
 If the Mac sleeps (a laptop), also run the relay on the bot host, so bots don't stall while it's closed:
 
@@ -53,8 +70,9 @@ If the Mac sleeps (a laptop), also run the relay on the bot host, so bots don't 
 node switchboard-relay.mjs --upstream https://<your-mac>.<tailnet>.ts.net/mcp --port 47822
 ```
 
-Then point the bot host's `switchboard` server at `http://127.0.0.1:47822/mcp` and keep its Authorization
-header. Build the file with `./scripts/build-relay.sh`, and keep it running with the bot host's service manager.
+Then point the bot host's `switchboard` server at the relay, `http://127.0.0.1:47822/mcp`, and keep its
+Authorization header. Without the relay, point it at `https://<your-mac>.<tailnet>.ts.net/mcp`. Build the relay
+with `./scripts/build-relay.sh`, and keep it running with the bot host's service manager.
 
 ## Command-line build
 

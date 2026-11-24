@@ -14,6 +14,7 @@ final class ServiceRunner {
     private var process: Process?
     private var stopping = false
     private var backoff: TimeInterval = 2
+    private var startedAt = Date()
     private(set) var lastExit: Int32?
 
     var isRunning: Bool { process?.isRunning ?? false }
@@ -45,6 +46,7 @@ final class ServiceRunner {
         do {
             try p.run()
             process = p
+            startedAt = Date()
         } catch {
             lastExit = -1
             scheduleRestart()
@@ -65,9 +67,12 @@ final class ServiceRunner {
         start()
     }
 
+    /// Also how scripts/http-token.sh applies a config change: it stops the daemon and this starts it again.
     private func exited(_ status: Int32) {
         process = nil
         lastExit = status
+        // A daemon that ran a while and was stopped isn't crash-looping: come back quickly.
+        if Date().timeIntervalSince(startedAt) > 60 { backoff = 2 }
         if !stopping { scheduleRestart() }
     }
 

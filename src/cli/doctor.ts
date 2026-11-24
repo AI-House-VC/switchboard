@@ -4,15 +4,90 @@
  */
 import { createHash } from "node:crypto";
 import { closeSync, existsSync, openSync, readdirSync, readFileSync, readSync, statSync } from "node:fs";
+import { homedir } from "node:os";
 import { join } from "node:path";
 import { ALLMAN_VERSION, allmanTrusted, findAllman } from "../adapters/linkedin/allman.ts";
 import { accountDir, readAuth } from "../adapters/linkedin/store.ts";
 import { whatsappFiles } from "../adapters/whatsapp/reader.ts";
 import { paths } from "../config.ts";
+import { findClaudeCli } from "./app.ts";
 import { LABEL, plistPath } from "./install.ts";
 
 type Level = "ok" | "warn" | "fail";
 const mark: Record<Level, string> = { ok: "✓", warn: "!", fail: "✗" };
+
+interface Line {
+  level: Level;
+  what: string;
+  fix?: string;
+}
+
+/** Run a command; null when it can't be started (not installed, not on PATH). */
+function tryRun(cmd: string[]): { exitCode: number; stdout: string } | null {
+  try {
+    const r = Bun.spawnSync(cmd, { stdout: "pipe", stderr: "pipe" });
+    return { exitCode: r.exitCode, stdout: r.stdout.toString() };
+  } catch {
+    return null;
+  }
+}
+
+/** One channel from the daemon's status.json. `mode` (off/read/read_write) decides; `enabled` only says its data exists. */
+export function channelLine(c: {
+  channel: string;
+  enabled: boolean;
+  connected: boolean;
+  auth: string;
+  last_ingest: Record<string, number> | null;
+  problems: string[];
+  listener_running?: boolean;
+  mode?: string;
+}): Line {
+  if (c.mode === "off") return { level: "warn", what: `  ${c.channel}: off in Switchboard settings` };
+  if (!c.enabled)
+    return { level: "warn", what: `  ${c.channel}: not on this Mac`, fix: c.problems.join(" | ") || undefined };
+  const counts = c.last_ingest
+    ? Object.entries(c.last_ingest)
+        .map(([k, v]) => `${k}=${v}`)
+        .join(" ")
+    : "no ingest yet";
+  const level: Level = c.problems.length ? "fail" : c.connected ? "ok" : "warn";
+  const state = c.mode ? `on (${c.mode})` : "on";
+  return {
+    level,
+    what: `  ${c.channel}: ${state}, auth=${c.auth}, last ingest: ${counts}${c.listener_running ? ", listener running" : ""}`,
+    fix: c.problems.join(" | ") || undefined,
+  };
+}
+
+/**
+ * What to add under Full Disk Access. Switchboard.app runs the daemon as its child, so the app bundle holds the
+ * grant; only the older terminal install's LaunchAgent needs the binary itself.
+ */
+export function fdaTarget(execPath: string, appRunsDaemon: boolean): string {
+  const bundle = /^(.*?\.app)\/Contents\//.exec(execPath)?.[1];
+  if (bundle) return bundle;
+  if (appRunsDaemon) return "Switchboard.app";
+  return "~/Applications/Switchboard/switchboard";
+}
+
+/** Claude Code's MCP entry. Never throws: a missing or broken `claude` is a skipped check. */
+export function claudeCodeLine(cli: string | null, run: (cmd: string[]) => number): Line {
+  if (!cli) return { level: "warn", what: "Claude Code CLI not found; skipped its MCP check" };
+  let code: number;
+  try {
+    code = run([cli, "mcp", "get", "switchboard"]);
+  } catch {
+    return { level: "warn", what: `Claude Code CLI (${cli}) couldn't be started; skipped its MCP check` };
+  }
+  return code === 0
+    ? { level: "ok", what: "Claude Code MCP entry registered" }
+    : {
+        level: "warn",
+        what: "Claude Code MCP entry not registered",
+        fix: "Open Switchboard.app (it registers itself), or run `switchboard install` for the terminal build.",
+      };
+}
 
 /**
  * Folders in allman's git object store that can't be opened (no owner execute bit). Any one of them makes
@@ -41,15 +116,13 @@ export async function runDoctor(): Promise<number> {
   // Daemon
   const uid = process.getuid?.() ?? 0;
   // Run by Switchboard.app as its child process, or by the older terminal install's LaunchAgent.
-  const byApp = Bun.spawnSync(["pgrep", "-f", "Switchboard.app/Contents/Helpers/switchboard daemon"], {
-    stdout: "pipe",
-  });
-  const appPid = byApp.exitCode === 0 ? byApp.stdout.toString().trim().split("\n")[0] : null;
-  const agent = Bun.spawnSync(["launchctl", "print", `gui/${uid}/${LABEL}`], { stdout: "pipe", stderr: "pipe" });
+  const byApp = tryRun(["pgrep", "-f", "Switchboard.app/Contents/Helpers/switchboard daemon"]);
+  const appPid = byApp?.exitCode === 0 ? byApp.stdout.trim().split("\n")[0] : null;
+  const agent = tryRun(["launchctl", "print", `gui/${uid}/${LABEL}`]);
   if (appPid) {
     say("ok", `Background service run by Switchboard.app (pid ${appPid})`);
-  } else if (agent.exitCode === 0) {
-    const pid = /pid = (\d+)/.exec(agent.stdout.toString())?.[1];
+  } else if (agent?.exitCode === 0) {
+    const pid = /pid = (\d+)/.exec(agent.stdout)?.[1];
     say(
       pid ? "ok" : "fail",
       `LaunchAgent ${LABEL} loaded${pid ? ` (pid ${pid})` : ", but not running"}`,
@@ -83,21 +156,13 @@ export async function runDoctor(): Promise<number> {
         last_ingest: Record<string, number> | null;
         problems: string[];
         listener_running?: boolean;
+        mode?: string;
       }>;
     };
     console.log(`  daemon status as of ${s.at}:`);
     for (const c of s.channels) {
-      const counts = c.last_ingest
-        ? Object.entries(c.last_ingest)
-            .map(([k, v]) => `${k}=${v}`)
-            .join(" ")
-        : "no ingest yet";
-      const level: Level = !c.enabled ? "warn" : c.problems.length ? "fail" : c.connected ? "ok" : "warn";
-      say(
-        level,
-        `  ${c.channel}: ${c.enabled ? "enabled" : "disabled"}, auth=${c.auth}, last ingest: ${counts}${c.listener_running ? ", listener running" : ""}`,
-        c.problems.join(" | ") || undefined,
-      );
+      const l = channelLine(c);
+      say(l.level, l.what, l.fix);
     }
   } else {
     say("warn", "No daemon status yet", "Start the daemon, or wait a few seconds after it starts.");
@@ -121,7 +186,7 @@ export async function runDoctor(): Promise<number> {
       `This doctor run can ${canRead(p.chatDb) ? "" : "NOT "}read chat.db (the terminal's access; the daemon's is the imessage line above)`,
       canRead(p.chatDb)
         ? undefined
-        : "Only the daemon needs access: System Settings → Privacy & Security → Full Disk Access → add ~/Applications/Switchboard/switchboard.",
+        : `Only the daemon needs access: System Settings → Privacy & Security → Full Disk Access → add ${fdaTarget(process.execPath, appPid !== null)}.`,
     );
   }
   const wa = whatsappFiles(p.whatsappDir).chatStorage;
@@ -205,15 +270,10 @@ export async function runDoctor(): Promise<number> {
       "  Known gap: approval via the harness form or the local page isn't proven to be a human (docs/DESIGN.md).",
   );
 
-  // Claude Code registration
-  const claude = Bun.spawnSync(["claude", "mcp", "get", "switchboard"], { stdout: "pipe", stderr: "pipe" });
-  say(
-    claude.exitCode === 0 ? "ok" : "warn",
-    `Claude Code MCP entry ${claude.exitCode === 0 ? "registered" : "not registered"}`,
-    claude.exitCode === 0
-      ? undefined
-      : "Run `switchboard install` (or claude mcp add --scope user switchboard -- ~/Applications/Switchboard/switchboard mcp --client claude-code).",
-  );
+  // Claude Code registration. Its CLI is often off PATH (launchd's minimal PATH, or not installed at all).
+  const run = (cmd: string[]) => Bun.spawnSync(cmd, { stdout: "pipe", stderr: "pipe" }).exitCode;
+  const cl = claudeCodeLine(findClaudeCli(homedir(), "/", run), run);
+  say(cl.level, cl.what, cl.fix);
 
   console.log(failures ? `\n${failures} problem(s).` : "\nAll checks passed.");
   return failures ? 1 : 0;
